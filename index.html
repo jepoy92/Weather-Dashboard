@@ -10,7 +10,8 @@
 <body>
 
     <div class="jumbotron">
-        <h1 class="display-3">Jumbo heading</h1>
+        <h1 class="display-3">Weather Dashboard</h1>
+        <h1 id="currentDay"></h1>
     </div>
     
     <div class="container">
@@ -19,7 +20,7 @@
                 <form id="city-form">
                     <label for="city-input">Search for a city</label>
                     <input type="text" id="city-input">
-                    <input type="submit" id="city-submit" >
+                    <input type="submit" id="city-submit">
                 </form>
                 <div id="cities"></div>
             </div>
@@ -40,34 +41,34 @@
 
 
     <span>5 Day Forecast</span>
-    <div class="row">
-        <div class="card">
+    <div class="row" id="days">
+        <!-- <div class="card">
         </div>
         <div class="card">
             <div class="col-lg-3">
-                hi
+                <h2 id="day1">Monday</h2>
             </div>
         </div>
         <div class="card">
             <div class="col-lg-3">
-                hi
+                <h2 id="day2">Tuesday</h2>
             </div>
         </div>
         <div class="card">
             <div class="col-lg-3">
-                hi
+                <h2 id="day3">Wednesday</h2>
             </div>
         </div>
         <div class="card">
             <div class="col-lg-3">
-                hi
+                <h2 id="day4">Thursday</h2>
             </div>
         </div>
         <div class="card">
             <div class="col-lg-3">
-                hi
+                <h2 id="day5">Friday</h2>
             </div>
-        </div>
+        </div> -->
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> 

@@ -1,16 +1,17 @@
 const Testurl = "https://api.openweathermap.org/data/2.5/weather?q=seattle&units=imperial&appid=8ffb62dfa9631cd0e94104bfe1a49201"
 
-const forecast = "https://api.openweathermap.org/data/2.5/forecast?id=5809844&appid=8ffb62dfa9631cd0e94104bfe1a49201"
+const forecast = "https://api.openweathermap.org/data/2.5/forecast?id=5809844&units=imperial&appid=8ffb62dfa9631cd0e94104bfe1a49201"
 
 const UV = "http://api.openweathermap.org/data/2.5/uvi?appid=8ffb62dfa9631cd0e94104bfe1a49201&lat=47.61&lon=-122.33"
 
-const forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?id="
-const forecastUnit = "&units=imperial&appid="
+const forecastUrl = "http://api.openweathermap.org/data/2.5/forecast?q="
+const forecastUnits = "&units=imperial"
+const forecastAPI= "&appid="
 
 const UVurl = "http://api.openweathermap.org/data/2.5/uvi?appid="
 
 
-const oneCall = "https://api.openweathermap.org/data/2.5/onecall?
+const oneCall = "https://api.openweathermap.org/data/2.5/onecall?"
 const lat = "lat="
 const long = "&lon="
 const hourly = "&exclude=hourly,daily&appid="
@@ -23,6 +24,17 @@ var citytext = $("#city-input")
 var submitBtn = $("#city-submit")
 var cities = []
 
+function currentDate () {
+    var currentTime = moment().format('MMMM Do YYYY, h:mm a');
+
+    $("#currentDay").text(currentTime);
+  }
+  
+setInterval(currentDate,1000);
+
+currentDate();
+
+
 function displayWeatherResults () {
     var city = $(this).attr("data-name")
     var queryURL = url + city + units + api
@@ -31,12 +43,14 @@ function displayWeatherResults () {
         url: queryURL,
         method: "GET"
     }).then(function(response) {
-        
+
         var cityName = response.name
         var temperature = response.main.temp
         var humidity= response.main.humidity
         var wind = response.wind.speed
         var icon = response.weather[0].icon
+        // var lat = response.coord.lat
+        // var lon = response.coord.lon
         
         $("#city-name").text(cityName)
         
@@ -48,35 +62,83 @@ function displayWeatherResults () {
         
         $("#wIcon").attr( "src", 'https://openweathermap.org/img/w/' + icon + '.png')
 
+        var lat = response.coord.lat
+        var lon = response.coord.lon
+        var UVquery = UVurl + api + "&lat=" + lat + "&lon=" + lon;
+        
+        $.ajax({
+            url: UVquery,
+            method: "GET"
+        }).then(function(response) {
+            var uvDiv = $("#uv")
+            var uvIndex = response.value
+            uvDiv.text("UV Index: " + uvIndex)
+            // console.log(response);
+
+            if (uvIndex < 3) {
+                uvDiv.attr('style', 'background-color: green; color: white; width: 120px;');
+            } else if (uvIndex < 6) {
+                uvDiv.attr('style', 'background-color: yellow; width: 120px;');
+            } else if (uvIndex < 8) {
+                uvDiv.attr('style', 'background-color: orange; width: 120px;');
+            } else if (uvIndex < 11) {
+                uvDiv.attr('style', 'background-color: red; color: white; width: 120px;');
+            } else {
+                uvDiv.attr('style', 'background-color: purple; color: white; width: 120px;');
+            }
+        // var UVquery = "https://api.openweathermap.org/data/2.5/uvi?appid=" + api + "&lat=" + cityLat + "&lon=" + cityLon;
+
     })
 
-    // $.ajax({
-    //     url:UVurl,
-    //     method: "GET"
-    // }).then(function(response) {
-    //     var longR = response.coord.lon 
-    //     var latR = response.coord.lat
+    var forecastQuery = forecastUrl + city + forecastUnits + forecastAPI + api
 
-    // //     console.log(longR);
+    $.ajax({
+        url: forecastQuery,
+        method:"GET"
+    }).then(function(response) {
+        console.log(response)
+        for ( var i =0; i<5; i++) {
+
+            var cardElement = $("<div class=card>")
+            cardElement.appendTo("#days");
+            
+            var cardTitle = $("<div class=card-title>")
+            var day = moment().add(i, "days").format("l")
+            cardTitle.text(day)
+            cardTitle.appendTo(cardElement)
+
+            var cardBody = $("<div class=card-body>")
+
+            var iconCast = response.list[i].weather[0].icon
+            var pIcon = $("<img>").attr("src",  'https://openweathermap.org/img/w/' + iconCast + '.png')
+            pIcon.appendTo(cardBody)
+
+            var tempCast = response.list[i].main.temp
+            var pTemp = $("<p>" + "Temperature: " + tempCast + "</p>")
+            pTemp.appendTo(cardBody)
         
+            var humidCast= response.list[i].main.humidity
+            var pHumid = $("<p>" + "Humidty: " + humidCast + "%" + "</p>")
+            pHumid.appendTo(cardBody)
+            
+            var windCast = response.list[i].wind.speed
+            var pWind = $("<p>" + "Wind speed: " + windCast + "</p>")
+            pWind.appendTo(cardBody)
 
-    // })
+            cardBody.appendTo(cardElement)
+    
+            }
+            // console.log(today)
+    })
+ 
+
+    })
 }
 
-function displayUV () {
-    $.ajax({
-        url:UVur,
-        method: "GET"
-    }).then(function(response) {
-        var uvI = response.value 
-        $("#uv").text(uvI)
-
-})}
-
-fetch(UV).then(res => {
+fetch(forecast).then(res => {
      return res.json();
 }).then(function(res) {
-    console.log(res);
+    console.log(res.list[1].main.temp);
 });
 
 
@@ -91,7 +153,6 @@ function renderCities () {
         selectedCities.attr("data-name", cities[i])
         selectedCities.text(cities[i])
         $("#cities").prepend(selectedCities)
-        localStorage.setItem("cities", cities[i])
     }
 
 }
@@ -106,7 +167,7 @@ $("#city-submit").on("click", function(event) {
     // The movie from the textbox is then added to our array
     cities.push(city);
 
-    localStorage.setItem("cities", city)
+    localStorage.setItem("cities", JSON.stringify(cities));
     // calling renderButtons which handles the processing of our movie array
     displayWeatherResults();
     renderCities();
