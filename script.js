@@ -34,6 +34,12 @@ setInterval(currentDate,1000);
 
 currentDate();
 
+localWeather();
+
+function localWeather () {
+    window.navigator.geolocation.getCurrentPosition(console.log, console.log)
+    
+}
 
 function displayWeatherResults () {
     var city = $(this).attr("data-name")
@@ -86,7 +92,6 @@ function displayWeatherResults () {
             } else {
                 uvDiv.attr('style', 'background-color: purple; color: white; width: 120px;');
             }
-        // var UVquery = "https://api.openweathermap.org/data/2.5/uvi?appid=" + api + "&lat=" + cityLat + "&lon=" + cityLon;
 
     })
 
@@ -97,47 +102,44 @@ function displayWeatherResults () {
         method:"GET"
     }).then(function(response) {
         console.log(response)
-        // for ( var i =0; i<5; i++) {
+        for ( var i =0; i<5; i++) {
 
             var cardElement = $("<div class=card>")
             cardElement.appendTo("#days");
             
             var cardTitle = $("<div class=card-title>")
-            var day = moment().add(0, "days").format("l")
-            // cardTitle.text(day)
-            // cardTitle.appendTo(cardElement)
-
-            $("#day1").text(day)
+            var day = moment().add(i, "days").format("l")
+            cardTitle.text(day)
+            cardTitle.appendTo(cardElement)
 
             var cardBody = $("<div class=card-body>")
 
-            var iconCast = response.list[0].weather[0].icon
-            var pIcon = $("<img>").attr("src",  'https://openweathermap.org/img/w/' + iconCast + '.png').attr("alt", "icon representing current weather")
+            var iconCast = response.list[i].weather[0].icon
+            var pIcon = $("<img>").attr("src",  'https://openweathermap.org/img/w/' + iconCast + '.png')
             pIcon.appendTo(cardBody)
 
-            $("#icon1").attr("src",  'https://openweathermap.org/img/w/' + iconCast + '.png').attr("alt", "icon representing current weather")
-
-            var tempCast = response.list[0].main.temp
+            var tempCast = response.list[i].main.temp
             var pTemp = $("<p>" + "Temperature: " + tempCast + "</p>")
             pTemp.appendTo(cardBody)
         
-            var humidCast= response.list[0].main.humidity
+            var humidCast= response.list[i].main.humidity
             var pHumid = $("<p>" + "Humidty: " + humidCast + "%" + "</p>")
             pHumid.appendTo(cardBody)
             
-            var windCast = response.list[0].wind.speed
+            var windCast = response.list[i].wind.speed
             var pWind = $("<p>" + "Wind speed: " + windCast + "</p>")
             pWind.appendTo(cardBody)
 
             cardBody.appendTo(cardElement)
     
-            // }
+            }
             // console.log(today)
     })
  
 
     })
 }
+
 
 fetch(forecast).then(res => {
      return res.json();
@@ -161,6 +163,15 @@ function renderCities () {
 
 }
 
+
+
+// function init() {
+//     var storedSearch = JSON.parse(localStorage.getItem("cities"));
+//     console.log(storedSearch)
+// }
+
+// init();
+
 $("#city-submit").on("click", function(event) {
     // event.preventDefault() prevents the form from trying to submit itself.
     // We're using a form so that the user can hit enter instead of clicking the button if they want
@@ -171,7 +182,7 @@ $("#city-submit").on("click", function(event) {
     // The movie from the textbox is then added to our array
     cities.push(city);
 
-    localStorage.setItem("cities", JSON.stringify(cities));
+    localStorage.setItem("cities", JSON.stringify(cities))
     // calling renderButtons which handles the processing of our movie array
     displayWeatherResults();
     renderCities();
