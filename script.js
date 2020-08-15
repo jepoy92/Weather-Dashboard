@@ -216,12 +216,11 @@ function displayWeatherResults () {
         url: forecastQuery,
         method:"GET"
     }).then(function(response) {
-        console.log(response)
+        console.log("HI")
         $("#days").empty()
         for ( var i =0; i<5; i++) {
 
             var cardElement = $("<div class=card>").attr("id", i)
-            // cardElement.appendTo("#days");
             
             var cardTitle = $("<div class=card-title>")
             var day = moment().add(i, "days").format("l")
@@ -248,7 +247,7 @@ function displayWeatherResults () {
 
             cardBody.appendTo(cardElement)
 
-            $("#forecastContainer").append(cardElement)
+            cardElement.appendTo("#days");
     
             }
             // console.log(today)
