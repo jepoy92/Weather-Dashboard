@@ -55,14 +55,12 @@ function displayWeatherResults () {
         var humidity= response.main.humidity
         var wind = response.wind.speed
         var icon = response.weather[0].icon
-        // var lat = response.coord.lat
-        // var lon = response.coord.lon
         
         $("#city-name").text(cityName)
         
         $("#temp").text("Temperature: " + temperature)
         
-        $("#humid").text("Humidity: " + humidity)
+        $("#humid").text("Humidity: " + humidity + "%")
         
         $("#wSpeed").text("Wind Speed: " + wind)
         
@@ -104,7 +102,7 @@ function displayWeatherResults () {
         console.log(response)
         for ( var i =0; i<5; i++) {
 
-            var cardElement = $("<div class=card>")
+            var cardElement = $("<div class=card>").attr("id", i)
             cardElement.appendTo("#days");
             
             var cardTitle = $("<div class=card-title>")
@@ -150,19 +148,46 @@ fetch(forecast).then(res => {
 
 
 function renderCities () {
-    $("#cities").empty();
+    $(".cities").empty();
+
+    renderSavedCities();
 
     for (var i = 0; i < cities.length; i++) {
         
         var selectedCities = $("<button>")
         selectedCities.addClass("selectedCities")
         selectedCities.attr("data-name", cities[i])
-        selectedCities.text(cities[i])
-        $("#cities").prepend(selectedCities)
-    }
+        selectedCities.text(cities[i]).attr("value", i).attr("id", i)
+        $(".cities").prepend(selectedCities)
 
+        localStorage.setItem(selectedCities.val(),cities[i])
+        // var get = localStorage.getItem(JSON.parse(selectedCities.val()))
+        // var newButton = $("<button>").addClass("selectedCities").attr("data-name", get)
+        // newButton.text(get).attr("value", i).attr("id", i)
+        // $(".cities").prepend(newButton)
+    }
+    
+    
+    // renderSavedCities();
+    // var Id = $(this).val()
+    // var input = $(`#${Id}`).val()
+    // localStorage.setItem(Id,input)
 }
 
+function renderSavedCities () {
+    
+    for (var i = 0; i < localStorage.length; i++) {
+        var get = localStorage.getItem(localStorage.key(i))
+        console.log(get)
+        var newButton = $("<button>").addClass("selectedCities").attr("data-name", get)
+        newButton.text(get).attr("value", i).attr("id", i)
+        $(".cities").prepend(newButton)
+    }
+
+    // var storedCity = JSON.parse(JSON.stringify(localStorage.getItem("cities")))
+    // var newButton = $("<button>").attr("data-name", storedCity).text(stored)
+    // $(".cities").prepend(newButton)
+}
 
 
 // function init() {
@@ -182,8 +207,9 @@ $("#city-submit").on("click", function(event) {
     // The movie from the textbox is then added to our array
     cities.push(city);
 
-    localStorage.setItem("cities", JSON.stringify(cities))
+
     // calling renderButtons which handles the processing of our movie array
+    // renderSavedCities();
     displayWeatherResults();
     renderCities();
   });
