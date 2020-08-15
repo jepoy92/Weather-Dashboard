@@ -38,7 +38,7 @@ information about any city they search.
 
 When the page is refreshed the user can re-use their recently searched cities which were saved through localstorage.
 
-![weather dashboard demo](./index.html)
+[Deployed Site](https://jepoy92.github.io/Weather-Dashboard/)
 
 ## Thank you to my wonderful study group! Please follow their githubs down below!
 
