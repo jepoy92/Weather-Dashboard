@@ -2,14 +2,14 @@ const Testurl = "https://api.openweathermap.org/data/2.5/weather?q=seattle&units
 
 const forecast = "https://api.openweathermap.org/data/2.5/forecast?id=5809844&units=imperial&appid=8ffb62dfa9631cd0e94104bfe1a49201"
 
-const UV = "http://api.openweathermap.org/data/2.5/uvi?appid=8ffb62dfa9631cd0e94104bfe1a49201&lat=47.61&lon=-122.33"
+const UV = "https://api.openweathermap.org/data/2.5/uvi?appid=8ffb62dfa9631cd0e94104bfe1a49201&lat=47.61&lon=-122.33"
 
-const forecastUrl = "http://api.openweathermap.org/data/2.5/forecast?q="
+const forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q="
 const forecastUnits = "&units=imperial"
 const forecastAPI= "&appid="
-const localForecast = "http://api.openweathermap.org/data/2.5/forecast?"
+const localForecast = "https://api.openweathermap.org/data/2.5/forecast?"
 
-const UVurl = "http://api.openweathermap.org/data/2.5/uvi?appid="
+const UVurl = "https://api.openweathermap.org/data/2.5/uvi?appid="
 
 
 const oneCall = "https://api.openweathermap.org/data/2.5/onecall?"
