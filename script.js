@@ -248,7 +248,7 @@ function displayWeatherResults () {
 
             cardBody.appendTo(cardElement)
 
-            $("#days").append(cardElement)
+            $("#forecastContainer").append(cardElement)
     
             }
             // console.log(today)
