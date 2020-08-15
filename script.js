@@ -7,11 +7,13 @@ const UV = "http://api.openweathermap.org/data/2.5/uvi?appid=8ffb62dfa9631cd0e94
 const forecastUrl = "http://api.openweathermap.org/data/2.5/forecast?q="
 const forecastUnits = "&units=imperial"
 const forecastAPI= "&appid="
+const localForecast = "http://api.openweathermap.org/data/2.5/forecast?"
 
 const UVurl = "http://api.openweathermap.org/data/2.5/uvi?appid="
 
 
 const oneCall = "https://api.openweathermap.org/data/2.5/onecall?"
+const local = "https://api.openweathermap.org/data/2.5/weather?"
 const lat = "lat="
 const long = "&lon="
 const hourly = "&exclude=hourly,daily&appid="
@@ -34,12 +36,127 @@ setInterval(currentDate,1000);
 
 currentDate();
 
-localWeather();
+var options = {
 
-function localWeather () {
-    window.navigator.geolocation.getCurrentPosition(console.log, console.log)
-    
+  enableHighAccuracy: true,
+  timeout: 1000,
+  maximumAge: 0
 }
+
+function error(err) {
+    alert("Please select a city")
+}
+
+
+function success(pos) {
+    
+    var localLat = pos.coords.latitude
+    var localLon = pos.coords.longitude
+
+    console.log(localLat)
+    console.log(localLon)
+
+    var queryURL = local + lat + localLat + long + localLon + units + api
+    console.log(queryURL)
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(response) {
+
+        console.log(response)
+
+        var cityName = response.name
+        var temperature = response.main.temp
+        var humidity= response.main.humidity
+        var wind = response.wind.speed
+        var icon = response.weather[0].icon
+        
+        $("#city-name").text(cityName)
+        
+        $("#temp").text("Temperature: " + temperature)
+        
+        $("#humid").text("Humidity: " + humidity + "%")
+        
+        $("#wSpeed").text("Wind Speed: " + wind)
+        
+        $("#wIcon").attr( "src", 'https://openweathermap.org/img/w/' + icon + '.png')
+
+        
+
+        var UVquery = UVurl + api + lat + localLat + long + localLon;
+        
+        $.ajax({
+            url: UVquery,
+            method: "GET"
+        }).then(function(response) {
+            var uvDiv = $("#uv")
+            var uvIndex = response.value
+            uvDiv.text("UV Index: " + uvIndex)
+            // console.log(response);
+
+            if (uvIndex < 3) {
+                uvDiv.attr('style', 'background-color: green; color: white; width: 120px;');
+            } else if (uvIndex < 6) {
+                uvDiv.attr('style', 'background-color: yellow; width: 120px;');
+            } else if (uvIndex < 8) {
+                uvDiv.attr('style', 'background-color: orange; width: 120px;');
+            } else if (uvIndex < 11) {
+                uvDiv.attr('style', 'background-color: red; color: white; width: 120px;');
+            } else {
+                uvDiv.attr('style', 'background-color: purple; color: white; width: 120px;');
+            }
+
+    })
+
+    var forecastQuery = localForecast + lat + localLat + long + localLon + forecastUnits + forecastAPI + api
+
+    console.log(forecastQuery)
+    $.ajax({
+        url: forecastQuery,
+        method:"GET"
+    }).then(function(response) {
+        console.log(response)
+        for ( var i =0; i<5; i++) {
+
+            var cardElement = $("<div class=card>").attr("id", i).addClass("forecast")
+            cardElement.appendTo("#days");
+            
+            var cardTitle = $("<div class=card-title>")
+            var day = moment().add(i, "days").format("l")
+            cardTitle.text(day)
+            cardTitle.appendTo(cardElement)
+
+            var cardBody = $("<div class=card-body>")
+
+            var iconCast = response.list[i].weather[0].icon
+            var pIcon = $("<img>").attr("src",  'https://openweathermap.org/img/w/' + iconCast + '.png')
+            pIcon.appendTo(cardBody)
+
+            var tempCast = response.list[i].main.temp
+            var pTemp = $("<p>" + "Temperature: " + tempCast + "</p>")
+            pTemp.appendTo(cardBody)
+        
+            var humidCast= response.list[i].main.humidity
+            var pHumid = $("<p>" + "Humidty: " + humidCast + "%" + "</p>")
+            pHumid.appendTo(cardBody)
+            
+            var windCast = response.list[i].wind.speed
+            var pWind = $("<p>" + "Wind speed: " + windCast + "</p>")
+            pWind.appendTo(cardBody)
+
+            cardBody.appendTo(cardElement)
+    
+            }
+            // console.log(today)
+    })
+ 
+
+    })
+}
+
+
+
+navigator.geolocation.getCurrentPosition(success, error, options)
 
 function displayWeatherResults () {
     var city = $(this).attr("data-name")
@@ -160,6 +277,9 @@ function renderCities () {
         selectedCities.text(cities[i]).attr("value", i).attr("id", i)
         $(".cities").prepend(selectedCities)
 
+        // if (selectedCities.val() != selectedCities.val()) {
+            
+        // }
         localStorage.setItem(selectedCities.val(),cities[i])
         // var get = localStorage.getItem(JSON.parse(selectedCities.val()))
         // var newButton = $("<button>").addClass("selectedCities").attr("data-name", get)

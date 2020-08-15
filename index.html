@@ -10,11 +10,11 @@
 <body>
 
     <div class="jumbotron">
-        <h1 class="display-3">Weather Dashboard</h1>
+        <h1 class="display-1">Weather Dashboard</h1>
         <h1 id="currentDay"></h1>
     </div>
     
-    <div class="container">
+    <div class="container" id="citySearch">
         <div class="row">
             <div class="col-md-3">
                 <form id="city-form">
@@ -22,12 +22,9 @@
                     <input type="text" id="city-input">
                     <input type="submit" id="city-submit">
                 </form>
-            <!-- <div class="col-md-3" id="clearBtn">
-                <button>Clear cities</button>
-            </div> -->
                 <div class= "cities"></div>
             </div>
-            <div class="col-lg-9">
+            <div class="col-lg-9" id="currentCitycol">
                 <div class="card" id="currentCity">
                     <h1 id="city-name"></h1>
                     <img id="wIcon">
@@ -42,39 +39,16 @@
         </div>
     </div>
 
-
-    <span>5 Day Forecast</span>
-    <div class="row" id="days">
-        <!-- <div class="card">
-        </div>
-        <div class="card">
-            <div class="col-lg-3">
-                <h2 id="day1">Monday</h2>
+    <div class="container" id="forecastContainer">
+        <div class="col-lg-12">
+            <span>5 Day Forecast</span>
+            <div class="row" id="days">
             </div>
-        </div>
-        <div class="card">
-            <div class="col-lg-3">
-                <h2 id="day2">Tuesday</h2>
-            </div>
-        </div>
-        <div class="card">
-            <div class="col-lg-3">
-                <h2 id="day3">Wednesday</h2>
-            </div>
-        </div>
-        <div class="card">
-            <div class="col-lg-3">
-                <h2 id="day4">Thursday</h2>
-            </div>
-        </div>
-        <div class="card">
-            <div class="col-lg-3">
-                <h2 id="day5">Friday</h2>
-            </div>
-        </div> -->
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> 
+            <script src="script.js"></script></div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> 
-    <script src="script.js"></script>
+
+    
 </body>
 </html>
