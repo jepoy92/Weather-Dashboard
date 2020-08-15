@@ -221,7 +221,7 @@ function displayWeatherResults () {
         for ( var i =0; i<5; i++) {
 
             var cardElement = $("<div class=card>").attr("id", i)
-            cardElement.appendTo("#days");
+            // cardElement.appendTo("#days");
             
             var cardTitle = $("<div class=card-title>")
             var day = moment().add(i, "days").format("l")
