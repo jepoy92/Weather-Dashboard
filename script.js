@@ -217,6 +217,7 @@ function displayWeatherResults () {
         method:"GET"
     }).then(function(response) {
         console.log(response)
+        $("#days").empty()
         for ( var i =0; i<5; i++) {
 
             var cardElement = $("<div class=card>").attr("id", i)
@@ -246,6 +247,8 @@ function displayWeatherResults () {
             pWind.appendTo(cardBody)
 
             cardBody.appendTo(cardElement)
+
+            $("#days").append(cardElement)
     
             }
             // console.log(today)
@@ -337,5 +340,3 @@ $("#city-submit").on("click", function(event) {
   $(document).on("click", ".selectedCities", displayWeatherResults);
 
   renderCities();
-
-
