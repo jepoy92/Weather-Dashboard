@@ -183,9 +183,9 @@ function displayWeatherResults () {
         
         $("#wIcon").attr( "src", 'https://openweathermap.org/img/w/' + icon + '.png')
 
-        var lat = response.coord.lat
-        var lon = response.coord.lon
-        var UVquery = UVurl + api + "&lat=" + lat + "&lon=" + lon;
+        var globalLat = response.coord.lat
+        var globalLon = response.coord.lon
+        var UVquery = UVurl + api + lat + globalLat + long + globalLon;
         
         $.ajax({
             url: UVquery,
