@@ -1,15 +1,25 @@
-# 06 Server-Side APIs: Weather Dashboard
+# Weather Dashboard
 
-## About
-
-Developers are often tasked with retrieving data from another application's API and using it in the context of their own. Third-party APIs allow developers to access their data and functionality by making requests with specific parameters to a URL. Your challenge is to build a weather dashboard that will run in the browser and feature dynamically updated HTML and CSS.
-
-Use the [OpenWeather API](https://openweathermap.org/api) to retrieve weather data for cities. The documentation includes a section called "How to start" that will provide basic setup and usage instructions. Use `localStorage` to store any persistent data.
-
-## User Story
+# Description
 
 This weather dashboard was created using Jquery, ajax methods, and the openweathermap api to create an app that will give the user
-information about any city they search. 
+information about any city they search such as city name, temperature, wind speed, humidity, UV index, and the area's current date and time.
+
+# Table of Contents
+
+
+* [Installation](#installation)
+* [Features](#usage)
+* [License](#license)
+* [Contributing](#contributing)
+* [Tests](#tests)
+* [Questions](#questions)
+
+# Installation
+
+No installation required, simply open the deployed app using the link below!
+
+[Deployed Site](https://jepoy92.github.io/Weather-Dashboard/)
 
 ## Features
 
@@ -40,9 +50,20 @@ information about any city they search.
 
 When the page is refreshed the user can re-use their recently searched cities which were saved through localstorage.
 
-## 
+# License
 
-[Deployed Site](https://jepoy92.github.io/Weather-Dashboard/)
+## License
+  
+  
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+  For more information on the license used, please click on the link below:
+
+- [License] (https://opensource.org/licenses/GPL-3.0)
+
+
+
+## Contributing
 
 ## Thank you to my wonderful study group! Please follow their githubs down below!
 
@@ -60,3 +81,28 @@ When the page is refreshed the user can re-use their recently searched cities wh
 - [Johnny Lieu](https://github.com/johnnylieu)
 - [Robert Graham](https://github.com/Robmgraham)
 - [Plover Brown](https://github.com/rebgrasshopper)
+- [Talia Vazquez](https://github.com/taliavazquez)
+- [Nancy Lambert-Brown](https://github.com/n-lambert)
+- [Zachary Bryan](https://github.com/zacharybryan)
+- [Perry Theobald](https://github.com/perrytjr)
+- [Tim Sanders](https://github.com/tbsanders5)
+- [Jeneth Diesta](https://github.com/jen6one9)
+- [Matthew Rogers](https://github.com/Rogers-Development-Services)
+- [Mando Estrada](https://github.com/Mando619)
+- [Clyde Baron Rapinan](https://github.com/clydebaron2000)
+- [Johnny Lieu](https://github.com/johnnylieu)
+- [Robert Graham](https://github.com/Robmgraham)
+
+## Tests 
+
+NONE
+
+## Questions
+
+  For questions concerning my apps, click on the link below for my github:
+
+  [Github Link] (https://github.com/jepoy92)
+
+  Or click the link below for my email:
+
+  [Email] (jeffrey1choi@gmail.com)
